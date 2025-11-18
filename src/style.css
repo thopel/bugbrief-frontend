@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+/* Scrollbar verticale */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Fond de la scrollbar */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Barre */
+::-webkit-scrollbar-thumb {
+  background: #52b788;
+  border-radius: 8px;
+}
+
+/* Au survol */
+::-webkit-scrollbar-thumb:hover {
+  background: #59c492;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #52b788 transparent;
+}
