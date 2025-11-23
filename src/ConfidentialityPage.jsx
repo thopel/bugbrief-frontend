@@ -6,9 +6,9 @@ function ConfidentialityPage() {
       <div className="max-w-3xl mx-auto px-4 py-16">
         {/* HEADER */}
         <header className="mb-10 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-[#52b788]">Confidentialité & Données</h1>
+          <h1 className="text-3xl font-bold text-[#52b788]">Privacy & Data</h1>
           <Link to="/presentation" className="text-sm text-gray-400 hover:text-[#52b788] transition-colors underline underline-offset-4">
-            Retour à la présentation
+            Back to homepage
           </Link>
         </header>
 
@@ -16,83 +16,83 @@ function ConfidentialityPage() {
         <div className="space-y-8 text-sm leading-relaxed text-gray-200 bg-[#001a2e]/60 border border-[#52b788]/20 rounded-xl p-6">
           {/* INTRO */}
           <p>
-            BugBrief a été conçu pour faciliter le diagnostic des bugs tout en restant simple, transparent et respectueux des données. Cette page explique
-            clairement ce qui est collecté, pourquoi, et comment les rapports sont gérés.
+            BugBrief is designed to simplify debugging while remaining simple, transparent, and respectful of data. This page clearly explains what is
+            collected, why, and how reports are handled.
           </p>
 
-          {/* SECTION : CE QUI EST COLLECTÉ */}
+          {/* SECTION: WHAT IS COLLECTED */}
           <section>
-            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Données collectées</h2>
-            <p>BugBrief enregistre uniquement les éléments techniques nécessaires pour comprendre un comportement anormal sur une page web :</p>
+            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Data Collected</h2>
+            <p>BugBrief records only the technical elements required to understand abnormal behavior on a web page:</p>
             <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-300">
-              <li>Console JavaScript (messages, erreurs, avertissements)</li>
-              <li>Requêtes réseau (URL, méthode, statut, durée, payload)</li>
-              <li>Contenu du localStorage (avec masquage automatique des clés sensibles)</li>
-              <li>Métadonnées techniques : URL active, user agent, langue, fuseau horaire, horodatage</li>
-              <li>Informations sur l’onglet (titre, visibilité, état général)</li>
+              <li>JavaScript console (messages, errors, warnings)</li>
+              <li>Network requests (URL, method, status, duration, payload)</li>
+              <li>localStorage content (with automatic masking of sensitive keys)</li>
+              <li>Technical metadata: active URL, user agent, language, timezone, timestamp</li>
+              <li>Tab information (title, visibility, general state)</li>
             </ul>
           </section>
 
-          {/* SECTION : CE QUI N'EST PAS COLLECTÉ */}
+          {/* SECTION: WHAT IS NOT COLLECTED */}
           <section>
-            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Ce qui n&apos;est jamais collecté</h2>
-            <p>Aucune donnée personnelle ou sensible n’est capturée intentionnellement. En particulier :</p>
+            <h2 className="text-[#52b788] font-semibold text-lg mb-2">What Is Never Collected</h2>
+            <p>No personal or sensitive data is intentionally captured, including:</p>
             <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-300">
-              <li>Mot de passe, email, numéro de carte, identité ou informations privées</li>
-              <li>Contenu de formulaire ou message écrit par l’utilisateur</li>
-              <li>Données externes ou système non liées à la page web</li>
-              <li>Cookies contenant des tokens sensibles</li>
+              <li>Password, email, card number, identity, or private information</li>
+              <li>Form content or messages typed by the user</li>
+              <li>External or system data not related to the web page</li>
+              <li>Cookies containing sensitive tokens</li>
             </ul>
-            <p className="mt-2">Le système détecte automatiquement les clés à risque dans le localStorage afin de les masquer ou les supprimer du rapport.</p>
+            <p className="mt-2">The system automatically detects risky localStorage keys to mask or remove them from the report.</p>
           </section>
 
-          {/* SECTION : STOCKAGE */}
+          {/* SECTION: STORAGE */}
           <section>
-            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Stockage temporaire</h2>
-            <p>Les rapports sont stockés pour une durée limitée (par exemple 30 jours), puis supprimés automatiquement. Cette durée courte permet :</p>
+            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Temporary Storage</h2>
+            <p>Reports are stored for a limited time (for example, 30 days) and then automatically deleted. This short retention period helps:</p>
             <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-300">
-              <li>d’éviter une accumulation inutile</li>
-              <li>de garder un service rapide et léger</li>
+              <li>avoid unnecessary accumulation</li>
+              <li>keep the service fast and lightweight</li>
             </ul>
           </section>
 
-          {/* SECTION : SÉCURITÉ */}
+          {/* SECTION: SECURITY */}
           <section>
-            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Sécurité & accès</h2>
+            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Security & Access</h2>
             <p>
-              Chaque rapport possède un identifiant unique généré de manière aléatoire. BugBrief ne partage rien automatiquement : seule une personne possédant
-              le lien peut consulter le rapport.
+              Each report has a unique randomly generated identifier. BugBrief never shares anything automatically: only someone with the link can view the
+              report.
             </p>
-            <p className="mt-2">Les rapports ne sont ni revendus, ni analysés, ni transmis à des tiers.</p>
+            <p className="mt-2">Reports are not sold, analyzed, or transmitted to third parties.</p>
           </section>
 
-          {/* SECTION : PARTAGE */}
+          {/* SECTION: SHARING */}
           <section>
-            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Partage des liens</h2>
-            <p>Comme les liens sont accessibles à toute personne les possédant, il est conseillé de ne les transmettre qu’à des personnes de confiance :</p>
+            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Link Sharing</h2>
+            <p>Because links can be accessed by anyone who has them, it is recommended to share them only with trusted individuals:</p>
             <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-300">
-              <li>Développeurs</li>
-              <li>Support technique</li>
-              <li>Équipes produit</li>
+              <li>Developers</li>
+              <li>Technical support</li>
+              <li>Product teams</li>
             </ul>
           </section>
 
-          {/* SECTION : BONNES PRATIQUES */}
+          {/* SECTION: BEST PRACTICES */}
           <section>
-            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Bonnes pratiques</h2>
+            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Best Practices</h2>
             <ul className="list-disc ml-5 mt-2 space-y-1 text-gray-300">
-              <li>Éviter de partager un lien sur un espace public</li>
-              <li>Supprimer manuellement un rapport si vous ne souhaitez plus qu’il soit consultable</li>
-              <li>S’assurer que le rapport ne contient pas d’informations métier sensibles</li>
+              <li>Avoid sharing a link in a public space</li>
+              <li>Manually delete a report if you no longer want it accessible</li>
+              <li>Ensure the report does not contain sensitive business information</li>
             </ul>
           </section>
 
-          {/* SECTION : CONTACT */}
+          {/* SECTION: CONTACT */}
           <section>
-            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Besoin d’aide ?</h2>
+            <h2 className="text-[#52b788] font-semibold text-lg mb-2">Need Help?</h2>
             <p>
-              Pour toute question concernant la confidentialité, la suppression des rapports ou la gestion de vos données, contactez votre administrateur ou
-              l’équipe responsable de BugBrief dans votre organisation.
+              For any questions regarding privacy, report deletion, or data management, contact your administrator or the team responsible for BugBrief within
+              your organization.
             </p>
           </section>
         </div>

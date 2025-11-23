@@ -5,17 +5,17 @@ import NotFoundPage from "./NotFoundPage.jsx";
 
 // ---------- TABS ----------
 const TABS = [
-  { id: "apercu", label: "Aperçu" },
+  { id: "apercu", label: "Overview" },
   { id: "console", label: "Console" },
-  { id: "reseau", label: "Réseau" },
+  { id: "reseau", label: "Network" },
   { id: "localstorage", label: "LocalStorage" },
-  { id: "meta", label: "Métadonnées" },
+  { id: "meta", label: "Metadata" },
 ];
 
 // ---------- DEMO DATA ----------
 const DEMO_BUGBRIEF = {
   id: "demo-ORISIS-Dashboard-123",
-  title: "Erreur sur la page Dashboard",
+  title: "Error on Dashboard page",
   timestamp: new Date().toISOString(),
   url: "https://bugbrief.thomaspelfrene.com/Dashboard",
   sizeBytes: 28950,
@@ -50,13 +50,13 @@ const DEMO_BUGBRIEF = {
     {
       t: 1763128569600,
       level: "log",
-      text: "Chargement des stats du dashboard…",
+      text: "Loading dashboard stats…",
       args: [],
     },
     {
       t: 1763128569800,
       level: "log",
-      text: "Dashboard chargé avec succès",
+      text: "Dashboard loaded successfully",
       args: [],
     },
   ],
@@ -161,7 +161,7 @@ const DEMO_BUGBRIEF = {
   ],
 };
 
-// ---------- COMPOSANTS UTILITAIRES ----------
+// ---------- UTILITY COMPONENTS ----------
 function InfoCard({ label, value }) {
   return (
     <div className="bg-[#001a2e]/60 border border-[#52b788]/20 rounded-lg p-4">
@@ -187,7 +187,7 @@ function Button({ children, onClick }) {
   );
 }
 
-// ---------- PAGE PRINCIPALE ----------
+// ---------- MAIN PAGE ----------
 export default function ReportPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -217,7 +217,7 @@ export default function ReportPage() {
       };
     }
 
-    // Mode démo
+    // Demo mode
     if (id === "demo") {
       setData(DEMO_BUGBRIEF);
       setLoading(false);
@@ -230,19 +230,19 @@ export default function ReportPage() {
       try {
         const r = await fetch(`https://bugbrief.thomaspelfrene.com/api/get_report.php?id=${encodeURIComponent(id)}`);
 
-        // On essaie de lire le JSON, même en cas d'erreur HTTP
+        // Try to read JSON even on HTTP error
         let payload = null;
         try {
           payload = await r.json();
         } catch {
-          // pas de JSON / corps vide
+          // no JSON / empty body
         }
 
-        // Cas HTTP non OK
+        // Non-OK HTTP case
         if (!r.ok) {
           const apiError = payload?.error;
 
-          // archived => on redirige vers la page d'archive
+          // archived => redirect to archive page
           if (apiError === "archived") {
             if (!stop) {
               navigate(`/archived/${encodeURIComponent(id)}`, { replace: true });
@@ -250,7 +250,7 @@ export default function ReportPage() {
             return;
           }
 
-          // invalid_id ou not_found => on affiche la page 404 rapport introuvable
+          // invalid_id or not_found => show 404 report-not-found page
           if (apiError === "invalid_id" || apiError === "not_found") {
             if (!stop) {
               setNotFound(true);
@@ -263,16 +263,16 @@ export default function ReportPage() {
           throw new Error(msg);
         }
 
-        // OK HTTP, on récupère le rapport
+        // HTTP OK, retrieve report
         const rep = (payload && (payload.report || payload)) || null;
 
         if (!rep) {
-          throw new Error("Réponse API invalide");
+          throw new Error("Invalid API response");
         }
 
         if (!stop) setData(rep);
       } catch (e) {
-        if (!stop) setErr(e.message || "Erreur de chargement");
+        if (!stop) setErr(e.message || "Loading error");
       } finally {
         if (!stop) setLoading(false);
       }
@@ -283,7 +283,7 @@ export default function ReportPage() {
     };
   }, [id]);
 
-  // Raccourcis clavier pour changer d’onglet
+  // Keyboard shortcuts to change tab
   useEffect(() => {
     const onKey = (e) => {
       if (!e.ctrlKey) return;
@@ -323,12 +323,12 @@ export default function ReportPage() {
     }
   };
 
-  // ⚠️ useMemo AVANT tout return conditionnel
+  // useMemo BEFORE any conditional return
   const content = useMemo(() => {
     if (!data) return null;
 
     switch (tab) {
-      // ---------- APERÇU ----------
+      // ---------- OVERVIEW ----------
       case "apercu":
         return (
           <div className="space-y-5">
@@ -347,17 +347,17 @@ export default function ReportPage() {
             )}
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <InfoCard label="Taille" value={`${data.sizeBytes || 0} octets`} />
+              <InfoCard label="Size" value={`${data.sizeBytes || 0} bytes`} />
               <InfoCard label="IP" value={data.ip || "—"} />
-              <InfoCard label="Créé le" value={data.createdAt ? new Date(data.createdAt).toLocaleString() : "—"} />
+              <InfoCard label="Created at" value={data.createdAt ? new Date(data.createdAt).toLocaleString() : "—"} />
               <InfoCard
-                label="Expire le"
+                label="Expires on"
                 value={
                   data.expiresAt
-                    ? `${new Date(data.expiresAt).toLocaleDateString("fr-FR")} (${Math.max(
+                    ? `${new Date(data.expiresAt).toLocaleString()} (${Math.max(
                         0,
                         Math.ceil((new Date(data.expiresAt) - new Date()) / (1000 * 60 * 60 * 24))
-                      )} jour${Math.max(0, Math.ceil((new Date(data.expiresAt) - new Date()) / (1000 * 60 * 60 * 24))) > 1 ? "s" : ""})`
+                      )} day${Math.max(0, Math.ceil((new Date(data.expiresAt) - new Date()) / (1000 * 60 * 60 * 24))) > 1 ? "s" : ""})`
                     : "—"
                 }
               />
@@ -392,7 +392,7 @@ export default function ReportPage() {
 
                   {hasArgs && (
                     <details className="mt-1">
-                      <summary className="cursor-pointer text-[10px] text-gray-400 hover:text-gray-200">Détails</summary>
+                      <summary className="cursor-pointer text-[10px] text-gray-400 hover:text-gray-200">Details</summary>
                       <pre className="mt-1 whitespace-pre-wrap text-[10px]">{isErrorObj ? firstArg.stack : JSON.stringify(c.args, null, 2)}</pre>
                     </details>
                   )}
@@ -401,10 +401,10 @@ export default function ReportPage() {
             })}
           </div>
         ) : (
-          <div className="text-gray-500 text-center py-12">Aucune sortie console.</div>
+          <div className="text-gray-500 text-center py-12">No console output.</div>
         );
 
-      // ---------- RÉSEAU ----------
+      // ---------- NETWORK ----------
       case "reseau":
         return Array.isArray(data.network) && data.network.length ? (
           <div className="space-y-2">
@@ -441,13 +441,13 @@ export default function ReportPage() {
 
                   <div className="px-4 pb-4 pt-2 space-y-4 border-t border-[#52b788]/10">
                     <div className="flex flex-wrap gap-2">
-                      <Button onClick={() => copyToClipboard(n.url)}>Copier l&apos;URL</Button>
+                      <Button onClick={() => copyToClipboard(n.url)}>Copy URL</Button>
                       {n.request?.body && (
                         <Button onClick={() => copyToClipboard(typeof n.request.body === "string" ? n.request.body : JSON.stringify(n.request.body))}>
-                          Copier body requête
+                          Copy request body
                         </Button>
                       )}
-                      {n.response?.body && <Button onClick={() => copyToClipboard(n.response.body)}>Copier body réponse</Button>}
+                      {n.response?.body && <Button onClick={() => copyToClipboard(n.response.body)}>Copy response body</Button>}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -484,24 +484,24 @@ export default function ReportPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div className="bg-[#000000]/30 border border-[#52b788]/10 rounded p-3">
-                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Headers — Requête</div>
+                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Request headers</div>
                         <pre className="text-xs font-mono text-gray-400 whitespace-pre-wrap overflow-auto max-h-40">{pretty(n.request?.headers || {})}</pre>
                       </div>
 
                       <div className="bg-[#000000]/30 border border-[#52b788]/10 rounded p-3">
-                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Body — Requête</div>
+                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Request body</div>
                         <pre className="text-xs font-mono text-gray-400 whitespace-pre-wrap overflow-auto max-h-40">{pretty(n.request?.body ?? "")}</pre>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div className="bg-[#000000]/30 border border-[#52b788]/10 rounded p-3">
-                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Headers — Réponse</div>
+                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Response headers</div>
                         <pre className="text-xs font-mono text-gray-400 whitespace-pre-wrap overflow-auto max-h-40">{pretty(n.response?.headersRaw || "")}</pre>
                       </div>
 
                       <div className="bg-[#000000]/30 border border-[#52b788]/10 rounded p-3">
-                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Body — Réponse (aperçu)</div>
+                        <div className="text-xs font-semibold text-[#52b788]/70 mb-2 uppercase tracking-wider">Response body (preview)</div>
                         <pre className="text-xs font-mono text-gray-400 whitespace-pre-wrap overflow-auto max-h-40">
                           {pretty(truncate(n.response?.body ?? ""))}
                         </pre>
@@ -513,13 +513,13 @@ export default function ReportPage() {
             })}
           </div>
         ) : (
-          <div className="text-gray-500 text-center py-12">Aucune requête capturée.</div>
+          <div className="text-gray-500 text-center py-12">No captured requests.</div>
         );
 
       // ---------- LOCALSTORAGE ----------
       case "localstorage":
         if (!data.localStorage?.length) {
-          return <div className="text-gray-500 text-center py-12">Aucun localStorage enregistré.</div>;
+          return <div className="text-gray-500 text-center py-12">No localStorage entries.</div>;
         }
         return (
           <div className="space-y-2">
@@ -528,8 +528,8 @@ export default function ReportPage() {
                 <summary className="list-none cursor-pointer px-4 py-3 flex flex-wrap justify-between items-center gap-3 hover:bg-[#003049]/30 transition-colors">
                   <div className="flex gap-3 items-center">
                     <span className="text-sm font-semibold text-gray-200">{item.key}</span>
-                    <span className="text-xs text-gray-500">{item.sizeBytes} octets</span>
-                    {item.sensitive && <Badge className="border-red-800/50 text-red-400 bg-red-950/20">sensible</Badge>}
+                    <span className="text-xs text-gray-500">{item.sizeBytes} bytes</span>
+                    {item.sensitive && <Badge className="border-red-800/50 text-red-400 bg-red-950/20">sensitive</Badge>}
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-500 group-open:hidden" />
                   <ChevronUp className="w-4 h-4 text-gray-500 hidden group-open:inline-block" />
@@ -537,8 +537,8 @@ export default function ReportPage() {
 
                 <div className="px-4 pb-4 pt-2 space-y-3 border-t border-[#52b788]/10">
                   <div className="flex flex-wrap gap-2">
-                    <Badge className="border-[#52b788]/30 text-[#52b788]/70">{item.isJson ? "JSON" : "Texte brut"}</Badge>
-                    <Button onClick={() => copyToClipboard(item.parsed ? JSON.stringify(item.parsed) : item.raw ?? "")}>Copier la valeur</Button>
+                    <Badge className="border-[#52b788]/30 text-[#52b788]/70">{item.isJson ? "JSON" : "Plain text"}</Badge>
+                    <Button onClick={() => copyToClipboard(item.parsed ? JSON.stringify(item.parsed) : item.raw ?? "")}>Copy value</Button>
                   </div>
 
                   <div className="bg-[#000000]/30 border border-[#52b788]/10 rounded-lg p-4">
@@ -552,14 +552,14 @@ export default function ReportPage() {
           </div>
         );
 
-      // ---------- MÉTADONNÉES ----------
+      // ---------- METADATA ----------
       case "meta":
         return data.meta ? (
           <pre className="bg-[#000000]/30 border border-[#52b788]/20 text-gray-300 p-4 rounded-lg overflow-auto text-xs font-mono whitespace-pre-wrap max-h-96">
             {JSON.stringify(data.meta, null, 2)}
           </pre>
         ) : (
-          <div className="text-gray-500 text-center py-12">Aucune métadonnée.</div>
+          <div className="text-gray-500 text-center py-12">No metadata.</div>
         );
 
       default:
@@ -567,7 +567,7 @@ export default function ReportPage() {
     }
   }, [tab, data]);
 
-  // ---------- RENDUS CONDITIONNELS APRÈS TOUS LES HOOKS ----------
+  // ---------- CONDITIONAL RENDERS AFTER ALL HOOKS ----------
   if (archived) {
     return <ArchivedReportPage />;
   } else if (notFound) {
@@ -578,7 +578,7 @@ export default function ReportPage() {
     return (
       <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100 flex items-center justify-center">
         <div className="text-gray-500 text-center">
-          <div className="mb-4">Chargement…</div>
+          <div className="mb-4">Loading…</div>
           <div className="animate-pulse">⏳</div>
         </div>
       </div>
@@ -592,13 +592,13 @@ export default function ReportPage() {
           <div className="bg-red-950/30 border border-red-900/50 rounded-lg p-4 flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
             <div>
-              <div className="text-red-400 font-semibold">Erreur</div>
+              <div className="text-red-400 font-semibold">Error</div>
               <div className="text-red-300 text-sm mt-1">{err}</div>
             </div>
           </div>
           <div className="mt-6">
             <Link to="/presentation" className="inline-block text-sm text-gray-400 hover:text-[#52b788] transition-colors underline underline-offset-4">
-              ← Retour à la présentation
+              ← Back to homepage
             </Link>
           </div>
         </div>
@@ -607,11 +607,11 @@ export default function ReportPage() {
   }
 
   if (!data) {
-    // Cas extrême : pas de données mais pas d’erreur → on évite de crasher
+    // Edge case: no data but no error → avoid crashing
     return null;
   }
 
-  // ---------- RENDU NORMAL ----------
+  // ---------- NORMAL RENDER ----------
   return (
     <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100">
       <div className="max-w-7xl mx-auto p-4" style={{ height: "calc(100vh - 110px)" }}>

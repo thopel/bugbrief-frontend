@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 const Header = () => {
   return (
     <div className="border-b border-[#52b788]/20 bg-[#002f48]">
@@ -7,7 +8,7 @@ const Header = () => {
           <span className="font-bold text-[#52b788]">BugBrief</span>
         </Link>
         <Link to="/presentation" className="flex items-center gap-2 text-sm text-gray-400 hover:text-[#52b788] transition-colors">
-          <span>Qu'est ce qu'un BugBrief ?</span>
+          <span>What is a BugBrief?</span>
         </Link>
       </div>
     </div>

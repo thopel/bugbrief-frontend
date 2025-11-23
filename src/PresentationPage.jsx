@@ -4,90 +4,89 @@ function PresentationPage() {
   return (
     <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100">
       <div className="max-w-7xl mx-auto px-4 py-16">
-        {/* SECTION INTRO */}
+        {/* INTRO SECTION */}
         <div className="text-center mb-16">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Simplifie le diagnostic et la compréhension des bugs</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">Make debugging and issue understanding easier</h1>
           <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            BugBrief collecte automatiquement le contexte technique d’un bug pour éviter les allers-retours et permettre aux développeurs d’aller droit à
-            l’essentiel : console, réseau, environnement, localStorage, tout est centralisé.
+            BugBrief automatically collects the technical context of a bug to avoid back-and-forth and let developers focus on what matters: console, network,
+            environment, localStorage – everything is centralized.
           </p>
         </div>
 
-        {/* SECTION 1 — 3 cartes */}
+        {/* SECTION 1 — 3 CARDS */}
         <div className="grid md:grid-cols-3 gap-6 mb-20">
           <div className="bg-gradient-to-br from-[#003049]/40 to-[#001a2e]/40 border border-[#52b788]/30 rounded-xl p-6 backdrop-blur-sm hover:border-[#52b788]/70 hover:shadow-lg hover:shadow-[#52b788]/10 transition-all duration-300">
             <div className="text-[#52b788] text-3xl font-bold mb-3">📸</div>
             <h3 className="text-white font-semibold mb-3">Capture</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Le client envoie un payload complet (console, réseau, metadata, stockage) en un seul clic à l’API BugBrief.
+              The client sends a complete payload (console, network, metadata, storage) in a single click to the BugBrief API.
             </p>
           </div>
 
           <div className="bg-gradient-to-br from-[#003049]/40 to-[#001a2e]/40 border border-[#52b788]/30 rounded-xl p-6 backdrop-blur-sm hover:border-[#52b788]/70 hover:shadow-lg hover:shadow-[#52b788]/10 transition-all duration-300">
             <div className="text-[#52b788] text-3xl font-bold mb-3">🔍</div>
-            <h3 className="text-white font-semibold mb-3">Consulte</h3>
+            <h3 className="text-white font-semibold mb-3">Review</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Ouvre le rapport généré grâce à son ID unique et explore les différentes sections pour comprendre précisément ce qui s’est passé.
+              Open the generated report using its unique ID and explore the different sections to understand exactly what happened.
             </p>
           </div>
 
           <div className="bg-gradient-to-br from-[#003049]/40 to-[#001a2e]/40 border border-[#52b788]/30 rounded-xl p-6 backdrop-blur-sm hover:border-[#52b788]/70 hover:shadow-lg hover:shadow-[#52b788]/10 transition-all duration-300">
             <div className="text-[#52b788] text-3xl font-bold mb-3">🛠</div>
-            <h3 className="text-white font-semibold mb-3">Débugge</h3>
+            <h3 className="text-white font-semibold mb-3">Debug</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Analyse les logs, les requêtes, les paramètres du navigateur et les données locales pour identifier rapidement l’origine du problème.
+              Analyze logs, requests, browser settings, and local data to quickly identify the root cause of the issue.
             </p>
           </div>
         </div>
 
-        {/* SECTION — POURQUOI */}
+        {/* SECTION — WHY */}
         <div className="mb-20">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Pourquoi BugBrief ?</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Why BugBrief?</h2>
           <p className="text-gray-300 max-w-3xl leading-relaxed mb-4">
-            Lorsqu’un bug apparaît, les utilisateurs ne savent pas toujours quoi communiquer. Côté développeurs, cela conduit à des échanges longs et souvent
-            imprécis.
+            When a bug appears, users do not always know what to share. On the developer side, this often leads to long and imprecise exchanges.
           </p>
           <p className="text-gray-300 max-w-3xl leading-relaxed">
-            BugBrief capte automatiquement tout le contexte technique au moment du problème, de façon fiable et standardisée. Résultat : moins de questions,
-            moins d’incertitudes, et une résolution plus rapide.
+            BugBrief automatically captures all the technical context at the moment of the issue, in a reliable and standardized way. The result: fewer
+            questions, fewer uncertainties, and faster resolution.
           </p>
         </div>
 
-        {/* SECTION — FONCTIONNALITÉS */}
+        {/* SECTION — FEATURES */}
         <div className="mb-20">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-10">Fonctionnalités principales</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-10">Key features</h2>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 emoji: "🧭",
-                title: "Console détaillée",
-                text: "Logs complets : niveaux, messages, stacktraces, sources.",
+                title: "Detailed console",
+                text: "Full logs: levels, messages, stack traces, sources.",
               },
               {
                 emoji: "🌐",
-                title: "Requêtes réseau",
-                text: "Toutes les requêtes : URL, méthode, statut, durée, payloads.",
+                title: "Network requests",
+                text: "All requests: URL, method, status, duration, payloads.",
               },
               {
                 emoji: "💾",
                 title: "LocalStorage",
-                text: "État complet du stockage local (clé/valeur) pour comprendre le contexte.",
+                text: "Full local storage state (key/value) to understand the context.",
               },
               {
                 emoji: "🖥",
-                title: "Environnement du navigateur",
-                text: "User agent, OS, résolution, URL active et autres paramètres utiles.",
+                title: "Browser environment",
+                text: "User agent, OS, resolution, active URL, and other useful parameters.",
               },
               {
                 emoji: "📂",
-                title: "Métadonnées",
-                text: "Informations techniques essentielles liées au bug.",
+                title: "Metadata",
+                text: "Essential technical information related to the bug.",
               },
               {
                 emoji: "⏳",
-                title: "Expiration automatique",
-                text: "Les rapports expirent après une durée définie pour ne pas stocker inutilement les données.",
+                title: "Automatic expiration",
+                text: "Reports expire after a set period so data is not stored longer than necessary.",
               },
             ].map((item, idx) => (
               <div
@@ -102,27 +101,27 @@ function PresentationPage() {
           </div>
         </div>
 
-        {/* SECTION — COMMENT ÇA MARCHE */}
+        {/* SECTION — HOW IT WORKS */}
         <div className="bg-gradient-to-r from-[#003049]/60 to-[#001a2e]/60 border border-[#52b788]/40 rounded-xl p-8 backdrop-blur-sm shadow-lg mb-20">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Comment ça marche ?</h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">How it works</h2>
           <ul className="text-gray-300 leading-relaxed space-y-3">
-            <li>• L’utilisateur clique sur l’icône BugBrief en cas de bug.</li>
-            <li>• L’extension collecte automatiquement le contexte technique (logs, réseau, données locales…).</li>
-            <li>• Un payload JSON complet est envoyé à l’API.</li>
-            <li>• Le serveur génère un lien unique vers un rapport clair et structuré.</li>
-            <li>• Le développeur accède au rapport et analyse chaque partie indépendamment.</li>
+            <li>• The user clicks on the BugBrief icon when a bug occurs.</li>
+            <li>• The extension automatically collects the technical context (logs, network, local data…).</li>
+            <li>• A complete JSON payload is sent to the API.</li>
+            <li>• The server generates a unique link to a clear, structured report.</li>
+            <li>• The developer opens the report and analyzes each section independently.</li>
           </ul>
         </div>
 
-        {/* SECTION — ESSAYER */}
+        {/* SECTION — TRY IT */}
         <div className="bg-gradient-to-r from-[#003049]/60 to-[#001a2e]/60 border border-[#52b788]/40 rounded-xl p-8 backdrop-blur-sm shadow-lg">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Essayer maintenant</h2>
-          <p className="text-gray-300 mb-8 max-w-2xl">Découvre l’interface complète en ouvrant un rapport de démonstration pré-rempli.</p>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-white">Try it now</h2>
+          <p className="text-gray-300 mb-8 max-w-2xl">Explore the full interface by opening a pre-filled demo report.</p>
           <Link
             to="/demo"
             className="inline-block bg-gradient-to-r from-[#52b788] to-[#40a06f] hover:from-[#40a06f] hover:to-[#2d7a56] text-[#001a2e] font-semibold px-8 py-3 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-[#52b788]/20"
           >
-            Voir un rapport →
+            View a report →
           </Link>
         </div>
       </div>
