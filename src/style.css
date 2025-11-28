@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-1xl: 87.5rem;
+}
+
 /* Scrollbar verticale */
 ::-webkit-scrollbar {
   width: 10px;
@@ -24,5 +28,5 @@
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #52b788 transparent;
+  scrollbar-color: #52b788 #002436;
 }

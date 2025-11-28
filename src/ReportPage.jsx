@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { AlertCircle, Archive, ChevronDown, ChevronUp, Home } from "lucide-react";
 import NotFoundPage from "./NotFoundPage.jsx";
+import History from "./components/History.jsx";
 
 // ---------- TABS ----------
 const TABS = [
@@ -14,7 +15,7 @@ const TABS = [
 
 // ---------- DEMO DATA ----------
 const DEMO_BUGBRIEF = {
-  id: "demo-ORISIS-Dashboard-123",
+  id: "demo",
   title: "Error on Dashboard page",
   timestamp: new Date().toISOString(),
   url: "https://bugbrief.thomaspelfrene.com/Dashboard",
@@ -576,10 +577,54 @@ export default function ReportPage() {
 
   if (loading) {
     return (
-      <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100 flex items-center justify-center">
-        <div className="text-gray-500 text-center">
-          <div className="mb-4">Loading…</div>
-          <div className="animate-pulse">⏳</div>
+      <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100 relative">
+        {/* History garde sa place même pendant le chargement */}
+        <History current={data} />
+
+        <div className="max-w-7xl mx-auto p-4" style={{ height: "calc(100vh - 120px)" }}>
+          <div className="bg-[#001a2e]/40 border border-[#52b788]/20 rounded-xl overflow-hidden shadow-xl h-full">
+            {/* Tabs skeleton */}
+            <nav className="flex border-b border-[#52b788]/20 overflow-x-auto bg-gradient-to-r from-[#003049]/50 to-[#001a2e]/50">
+              {TABS.map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setTab(t.id)}
+                  className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-all ${
+                    tab === t.id
+                      ? "bg-[#52b788]/20 text-[#52b788] border-b-2 border-[#52b788]"
+                      : "text-gray-400 hover:text-gray-200  border-b-2 border-transparent hover:bg-[#003049]/40"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </nav>
+
+            {/* Contenu skeleton (calqué sur l'onglet Overview) */}
+            <div className="p-6 space-y-6">
+              {/* Titre + date */}
+              <div className="space-y-5 pt-1">
+                <div className="h-6 w-64 bg-[#0b3145] rounded-md animate-pulse" />
+                <div className="h-3 w-40 bg-[#0b3145] rounded-md animate-pulse" />
+              </div>
+
+              {/* Bloc URL */}
+              <div className="bg-[#001a2e]/40 border border-[#52b788]/20 rounded-lg p-4 space-y-2">
+                <div className="h-3 w-10 bg-[#0b3145] rounded-md animate-pulse" />
+                <div className="h-4 w-full max-w-xl bg-[#0b3145] rounded-md animate-pulse" />
+              </div>
+
+              {/* Grid infos (Size, IP, Created at, Expires on) */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="bg-[#001a2e]/60 border border-[#52b788]/20 rounded-lg p-4 space-y-2">
+                    <div className="h-3 w-20 bg-[#0b3145] rounded-md animate-pulse" />
+                    <div className="h-4 w-24 bg-[#0b3145] rounded-md animate-pulse" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -613,8 +658,9 @@ export default function ReportPage() {
 
   // ---------- NORMAL RENDER ----------
   return (
-    <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100">
-      <div className="max-w-7xl mx-auto p-4" style={{ height: "calc(100vh - 110px)" }}>
+    <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100 relative">
+      <History current={data} />
+      <div className="max-w-7xl mx-auto p-4" style={{ height: "calc(100vh - 120px)" }}>
         <div className="bg-[#001a2e]/40 border border-[#52b788]/20 rounded-xl overflow-y-auto shadow-xl h-full">
           <nav className="flex border-b border-[#52b788]/20 overflow-x-auto bg-gradient-to-r from-[#003049]/50 to-[#001a2e]/50">
             {TABS.map((t) => (

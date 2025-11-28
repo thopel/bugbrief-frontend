@@ -1,10 +1,12 @@
 // src/NotFoundPage.jsx
 import { Link } from "react-router-dom";
 import { AlertCircle, Home, Bug } from "lucide-react";
+import History from "./components/History";
 
 function NotFoundPage() {
   return (
     <div className="grow bg-gradient-to-b from-[#003049] via-[#001f2e] to-[#000000] text-gray-100 flex items-center justify-center px-4">
+      <History current={null} />
       <div className="max-w-2xl w-full space-y-8">
         {/* Main card */}
         <div className="bg-[#001a2e]/30 open:bg-[#001a2e]/60 transition-colors border border-[#52b788]/25 rounded-3xl shadow-xl p-7 backdrop-blur-sm">
