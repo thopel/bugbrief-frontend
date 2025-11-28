@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Clock, ChevronLeft, ChevronRight, Trash2, Search } from "lucide-react";
 
 const STORAGE_KEY = "bugbrief_history_v1";
@@ -37,11 +37,14 @@ function filterNotExpired(list) {
   });
 }
 
-// Tri par created_at (fallback 0 si manquant)
-function sortByCreatedAt(list) {
+// Tri par firstSeenAt (fallback sur created_at, sinon 0)
+function sortByFirstSeenAt(list) {
   return [...list].sort((a, b) => {
-    const ta = a.created_at ? new Date(a.created_at).getTime() : 0;
-    const tb = b.created_at ? new Date(b.created_at).getTime() : 0;
+    const aRef = a.firstSeenAt || a.created_at || null;
+    const bRef = b.firstSeenAt || b.created_at || null;
+
+    const ta = aRef ? new Date(aRef).getTime() : 0;
+    const tb = bRef ? new Date(bRef).getTime() : 0;
 
     if (Number.isNaN(ta) && Number.isNaN(tb)) return 0;
     if (Number.isNaN(ta)) return 1;
@@ -52,14 +55,16 @@ function sortByCreatedAt(list) {
   });
 }
 
-// Regroupement par jour de lastSeenAt
-function groupByLastSeenDay(list) {
+// Regroupement par jour de firstSeenAt
+function groupByFirstSeenDay(list) {
   const groups = new Map();
 
   list.forEach((item) => {
     let key = "unknown";
-    if (item.lastSeenAt) {
-      const d = new Date(item.lastSeenAt);
+
+    const ref = item.firstSeenAt || item.created_at || null;
+    if (ref) {
+      const d = new Date(ref);
       if (!Number.isNaN(d.getTime())) {
         key = d.toISOString().slice(0, 10); // yyyy-mm-dd
       }
@@ -96,8 +101,6 @@ function groupByLastSeenDay(list) {
 }
 
 export default function History({ current, buildUrl }) {
-  const location = useLocation();
-
   const [open, setOpen] = useState(() => {
     if (typeof window === "undefined") return false;
     const stored = sessionStorage.getItem(SESSION_KEY);
@@ -107,10 +110,12 @@ export default function History({ current, buildUrl }) {
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
 
+  // Persistance open/close
   useEffect(() => {
     sessionStorage.setItem(SESSION_KEY, open ? "true" : "false");
   }, [open]);
 
+  // Events globaux pour ouvrir/fermer/toggler
   useEffect(() => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -131,7 +136,7 @@ export default function History({ current, buildUrl }) {
   useEffect(() => {
     const initial = loadHistory();
     const cleaned = filterNotExpired(initial);
-    const sorted = sortByCreatedAt(cleaned);
+    const sorted = sortByFirstSeenAt(cleaned);
     if (sorted.length !== initial.length) {
       saveHistory(sorted);
     }
@@ -146,20 +151,28 @@ export default function History({ current, buildUrl }) {
 
     const rawExpires = current.expires_at || current.expiresAt || current.meta?.expires_at || current.meta?.expiresAt || null;
 
-    const entry = {
+    const baseEntry = {
       id: current.id,
       title: current?.meta?.title || current.title || current.url || current.id,
       created_at: rawCreated,
       expires_at: rawExpires,
       url: current.url || null,
-      lastSeenAt: new Date().toISOString(),
     };
 
     setItems((prev) => {
       const cleaned = filterNotExpired(prev);
-      const without = cleaned.filter((i) => i.id !== entry.id);
-      const merged = [...without, entry];
-      const sorted = sortByCreatedAt(merged);
+
+      const existing = cleaned.find((i) => i.id === baseEntry.id);
+
+      const firstSeenAt =
+        existing?.firstSeenAt || // si déjà existant, on conserve
+        new Date().toISOString();
+
+      const without = cleaned.filter((i) => i.id !== baseEntry.id);
+
+      const merged = [...without, { ...baseEntry, firstSeenAt }];
+
+      const sorted = sortByFirstSeenAt(merged);
 
       saveHistory(sorted);
       return sorted;
@@ -187,7 +200,7 @@ export default function History({ current, buildUrl }) {
     });
   }, [items, search]);
 
-  const groupedByDay = useMemo(() => groupByLastSeenDay(filteredItems), [filteredItems]);
+  const groupedByDay = useMemo(() => groupByFirstSeenDay(filteredItems), [filteredItems]);
 
   const hasFilteredItems = filteredItems && filteredItems.length > 0;
 
@@ -256,14 +269,6 @@ export default function History({ current, buildUrl }) {
                     }
                   }
 
-                  let lastSeenLabel = "N/A";
-                  if (item.lastSeenAt) {
-                    const d = new Date(item.lastSeenAt);
-                    if (!Number.isNaN(d.getTime())) {
-                      lastSeenLabel = d.toLocaleString();
-                    }
-                  }
-
                   return (
                     <Link
                       key={item.id}
@@ -274,7 +279,6 @@ export default function History({ current, buildUrl }) {
                     >
                       <div className="flex flex-col gap-1.5">
                         <span className="font-semibold text-gray-100 truncate">{item.title}</span>
-
                         <span className="text-[10px] text-[#52b788]/80 uppercase tracking-wider">{createdLabel}</span>
                       </div>
                     </Link>
