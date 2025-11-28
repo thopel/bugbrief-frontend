@@ -97,7 +97,7 @@ export default function History({ current, buildUrl }) {
   useEffect(() => {
     if (!current || !current.id) return;
 
-    const rawCreated = current.created_at || current.expiresAt || current.meta?.created_at || current.meta?.expiresAt || null;
+    const rawCreated = current.created_at || current.createdAt || current.meta?.created_at || current.meta?.createdAt || null;
 
     const entry = {
       id: current.id,
